@@ -1,22 +1,42 @@
+/* Style global pour le body */
 body {
-  background-color: #117ec1; /* Ceci est une couleur grise claire */
+  background-color: #117ec1; /* Couleur de fond bleue */
   color: white;
   background-image: url(../src/assets/7ff964a9741b39ee2716f0cb202951aa.jpg);
+  background-repeat: no-repeat;
+  background-size: cover; /* L'image couvre tout l'arrière-plan */
+  background-position: center;
 }
 
-.back-Image {
-  width: 45%; /* Remplacez par la largeur souhaitée */
-  height: auto; /* Remplacez par la hauteur souhaitée */
-  filter: blur(0.7px);
-}
-
+/* Conteneur pour les cartes */
 .card-container {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-left: 70px;
+  flex-wrap: wrap; /* Permet aux cartes de s'organiser automatiquement */
+  justify-content: center; /* Centre le contenu */
+  gap: 20px; /* Ajoute de l'espace entre les cartes */
+  padding: 20px; /* Ajoute du rembourrage autour du conteneur de cartes */
+  margin-top: 20px; /* Ajoute de l'espace au-dessus des cartes */
 }
 
-.back-Image:hover {
-  transform: scale(1.05);
+/* Style pour chaque carte */
+.card-face , .card-back {
+  width: 100px; /* Largeur de la carte */
+  height: 150px; /* Hauteur de la carte */
+  border: 1.5px solid white; /* Ajoute une bordure autour de la carte */
+  border-radius: 10px; /* Coins arrondis pour un aspect doux */
+  overflow: hidden; /* Évite le débordement de contenu */
+  filter: blur(0.5px);
+}
+
+/* Effet de survol pour agrandir légèrement les cartes */
+.card-face , .card-back:hover {
+  transform: scale(1.05); /* Agrandit la carte lors du survol */
+}
+
+/* Style pour le titre */
+.Title {
+  font-size: 2em; /* Taille de police pour le titre */
+  text-align: center; /* Le titre est centré */
+  margin-bottom: 20px; /* Espace sous le titre */
+  margin-left: 20px;
 }
