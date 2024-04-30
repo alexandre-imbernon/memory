@@ -4,9 +4,12 @@ const Card = ({ card, flipCard }) => {
     const cardImage = `/assets/${card.value}.png`;
     return (
         <div onClick={() => flipCard(card.id)}>
-            {card.isFlipped ? <img src={cardImage} alt={card.value} /> : <img src={backImage} alt="dos de la carte" />}
+            {card.isFlipped ? 
+                <img className="back-Image" src={cardImage} alt={card.value} /> : 
+                <img className="back-Image" src={backImage} alt="dos de la carte" />}
         </div>
     );
 };
+
 
 export default Card;

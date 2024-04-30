@@ -3,9 +3,12 @@ import '../src/App.css';
 import Button from './components/Button/Button';
 import Card from './components/Card/Card';
 import Title from './components/Title/Title';
+import BackgroundMusic from './components/Music/Music';
+
 
 function App() {
   const [cards, setCards] = useState([
+    
     { id: 1, value: 'A', isFlipped: false, backImage: '../assets/cardreverse.png' },
     { id: 2, value: 'A', isFlipped: false },
     { id: 3, value: 'B', isFlipped: false },
@@ -46,10 +49,13 @@ function App() {
 
   return (
     <div>
+      <BackgroundMusic /> {/* Ajoutez cette ligne pour utiliser le composant BackgroundMusic */}
       <Title />
-      {cards.map((card) => (
-        <Card key={card.id} card={card} flipCard={flipCard} />
-      ))}
+      <div className="card-container">
+        {cards.map((card) => (
+          <Card key={card.id} card={card} flipCard={flipCard} />
+        ))}
+      </div>
       <Button resetGame={resetGame} />
     </div>
   );
