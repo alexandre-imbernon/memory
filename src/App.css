@@ -14,10 +14,7 @@
   color: #61dafb;
 }
 
-text {
-  text-align: center;
-  color: green;
-}
+
 
 @keyframes App-logo-spin {
   from {
@@ -31,6 +28,12 @@ text {
 body {
   background-color: #117ec1; /* Ceci est une couleur grise claire */
   color: white;
-  text-align: center;
+  background-image: url(../src/assets/7ff964a9741b39ee2716f0cb202951aa.jpg);
 }
+
+.back-image {
+  width: 50%; /* Remplacez par la largeur souhaitée */
+
+}
+
 
