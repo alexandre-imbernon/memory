@@ -13,7 +13,7 @@ body {
   flex-wrap: wrap; /* Permet aux cartes de s'organiser automatiquement */
   justify-content: center; /* Centre le contenu */
   gap: 20px; /* Ajoute de l'espace entre les cartes */
-  margin-top: 16%; /* Ajoute de l'espace au-dessus des cartes */
+  margin-top: 10%; /* Ajoute de l'espace au-dessus des cartes */
 }
 
 /* Style pour chaque carte */
@@ -28,7 +28,7 @@ body {
 
 /* Effet de survol pour agrandir légèrement les cartes */
 .card-face , .card-back:hover {
-  transform: scale(1.05); /* Agrandit la carte lors du survol */
+  transform: scale(1.06); /* Agrandit la carte lors du survol */
 }
 
 /* Style pour le titre */
@@ -37,4 +37,20 @@ h1 {
   margin-left: 20px; 
   margin-bottom: 20px; /* Espace sous le titre */
   filter: blur(0.3px);
+}
+
+button {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  margin: 10px;
+}
+
+.Igor {
+  width: 15%; /* Largeur de la carte */
+  height: auto; /* Hauteur de la carte */
+  position: fixed; /* Position fixe par rapport à la fenêtre du navigateur */
+  bottom: 0; /* Positionné en bas de la page */
+  left: 50%; /* Positionné au milieu de la page */
+  transform: translateX(-50%); /* Déplace l'image à gauche de sa moitié pour la centrer parfaitement */
 }

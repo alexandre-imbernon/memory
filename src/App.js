@@ -4,6 +4,7 @@ import Button from './components/Button/Button';
 import Card from './components/Card/Card';
 import Title from './components/Title/Title';
 import BackgroundMusic from './components/Music/Music';
+import Igor from "./assets/igor.png";
 
 const shuffleArray = (array) => {
   return array.sort(() => Math.random() - 0.5);
@@ -69,6 +70,7 @@ function App() {
         {cards.map((card) => (
           <Card key={card.id} card={card} flipCard={flipCard} />
         ))}
+          <img className="Igor" src={Igor} alt="Igor" />
       </div>
       <Button resetGame={resetGame} />
     </div>

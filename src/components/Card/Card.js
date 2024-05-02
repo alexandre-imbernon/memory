@@ -1,5 +1,7 @@
 import React from 'react';
+
 import backImage from '../../assets/cardreverse.png'; // Dos de la carte
+
 import cardAImage from '../../assets/card1.png'; // Face de la carte (1 à 23)
 import cardBImage from '../../assets/card2.png'; 
 import cardCImage from '../../assets/card3.png'; 
@@ -23,7 +25,6 @@ import cardTImage from '../../assets/card20.png';
 import cardUImage from '../../assets/card21.png'; 
 import cardVImage from '../../assets/card22.png'; 
 import cardWImage from '../../assets/card23.png'; 
-
 
 const getCardImage = (value) => {
   const cardImages = {
@@ -52,7 +53,7 @@ const getCardImage = (value) => {
     'W': cardWImage,
   };
 
-  return cardImages[value] || backImage; // Retourner une image de secours si nécessaire
+  return cardImages[value] || backImage; 
 };
 
 const Card = ({ card, flipCard }) => {
