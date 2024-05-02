@@ -34,9 +34,9 @@ body {
 }
 
 /* Style pour le titre */
-.Title {
+h1 {
   font-size: 2em; /* Taille de police pour le titre */
-  text-align: center; /* Le titre est centré */
+  margin-left: 20px; 
   margin-bottom: 20px; /* Espace sous le titre */
-  margin-left: 20px;
+  filter: blur(0.3px);
 }

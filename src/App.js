@@ -4,6 +4,7 @@ import Button from './components/Button/Button';
 import Card from './components/Card/Card';
 import Title from './components/Title/Title';
 import BackgroundMusic from './components/Music/Music';
+import _ from 'lodash'; // Importez lodash pour le shuffle 
 
 const shuffleCards = (cards) => {
   // Mélanger les cartes de manière aléatoire
@@ -20,12 +21,49 @@ function App() {
     { id: 6, value: 'C', isFlipped: false },
     { id: 7, value: 'D', isFlipped: false },
     { id: 8, value: 'D', isFlipped: false },
-    // Ajouter de nouvelles paires de cartes
-    //{ id: 9, value: 'E', isFlipped: false },
-    //{ id: 10, value: 'E', isFlipped: false },
+    { id: 9, value: 'E', isFlipped: false },
+    { id: 10, value: 'E', isFlipped: false },
+    { id: 11, value: 'F', isFlipped: false },
+    { id: 12, value: 'F', isFlipped: false },
+    { id: 13, value: 'G', isFlipped: false },
+    { id: 14, value: 'G', isFlipped: false },
+    { id: 15, value: 'H', isFlipped: false },
+    { id: 16, value: 'H', isFlipped: false },
+    { id: 17, value: 'I', isFlipped: false },
+    { id: 18, value: 'I', isFlipped: false },
+    { id: 19, value: 'J', isFlipped: false },
+    { id: 20, value: 'J', isFlipped: false },
+    { id: 21, value: 'K', isFlipped: false },
+    { id: 22, value: 'K', isFlipped: false },
+    { id: 23, value: 'L', isFlipped: false },
+    { id: 24, value: 'L', isFlipped: false },
+    { id: 25, value: 'M', isFlipped: false },
+    { id: 26, value: 'M', isFlipped: false },
+    { id: 27, value: 'N', isFlipped: false },
+    { id: 28, value: 'N', isFlipped: false },
+    { id: 29, value: 'O', isFlipped: false },
+    { id: 30, value: 'O', isFlipped: false },
+    { id: 31, value: 'P', isFlipped: false },
+    { id: 32, value: 'P', isFlipped: false },
+    { id: 33, value: 'Q', isFlipped: false },
+    { id: 34, value: 'Q', isFlipped: false },
+    { id: 35, value: 'R', isFlipped: false },
+    { id: 36, value: 'R', isFlipped: false },
+    { id: 37, value: 'S', isFlipped: false },
+    { id: 38, value: 'S', isFlipped: false },
+    { id: 39, value: 'T', isFlipped: false },
+    { id: 40, value: 'T', isFlipped: false },
+    { id: 41, value: 'U', isFlipped: false },
+    { id: 42, value: 'U', isFlipped: false },
+    { id: 43, value: 'V', isFlipped: false },
+    { id: 44, value: 'V', isFlipped: false },
+    { id: 45, value: 'W', isFlipped: false },
+    { id: 46, value: 'W', isFlipped: false },
+    { id: 47, value: 'X', isFlipped: false },
+    { id: 48, value: 'X', isFlipped: false },
   ];
 
-  const [cards, setCards] = useState(shuffleCards([...initialCards]));
+  const [cards, setCards] = useState(shuffleCards([...initialCards]).slice(0, 8));
   const [flippedCards, setFlippedCards] = useState([]);
 
   const flipCard = useCallback((id) => {
@@ -35,9 +73,10 @@ function App() {
   }, [flippedCards]);
 
   const resetGame = useCallback(() => {
-    setCards(shuffleCards([...initialCards]));
+    // Mélangez à nouveau toutes les cartes et prenez les 8 premières pour la nouvelle partie
+    setCards(shuffleCards([...initialCards]).slice(0, 8));
     setFlippedCards([]);
-  }, [initialCards]);
+  }, []);
 
   useEffect(() => {
     if (flippedCards.length === 2) {
