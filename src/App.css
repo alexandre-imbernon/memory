@@ -4,8 +4,7 @@ body {
   color: white;
   background-image: url(../src/assets/7ff964a9741b39ee2716f0cb202951aa.jpg);
   background-repeat: no-repeat;
-  background-size: cover; /* L'image couvre tout l'arrière-plan */
-  background-position: center;
+  background-size:cover; /* L'image couvre tout l'arrière-plan */
 }
 
 /* Conteneur pour les cartes */
@@ -14,8 +13,7 @@ body {
   flex-wrap: wrap; /* Permet aux cartes de s'organiser automatiquement */
   justify-content: center; /* Centre le contenu */
   gap: 20px; /* Ajoute de l'espace entre les cartes */
-  padding: 20px; /* Ajoute du rembourrage autour du conteneur de cartes */
-  margin-top: 20px; /* Ajoute de l'espace au-dessus des cartes */
+  margin-top: 16%; /* Ajoute de l'espace au-dessus des cartes */
 }
 
 /* Style pour chaque carte */
