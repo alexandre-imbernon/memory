@@ -26,7 +26,7 @@ function App() {
   const [cards, setCards] = useState(createCardPairs());
   const [flippedCards, setFlippedCards] = useState([]);
   const [isChecking, setIsChecking] = useState(false);
-  const [foundPairs, setFoundPairs] = useState(0);
+  const [lastFoundPair, setLastFoundPair] = useState(null); // La dernière paire trouvée
 
   const flipCard = useCallback(
     (id) => {
@@ -46,7 +46,7 @@ function App() {
   const resetGame = useCallback(() => {
     setCards(createCardPairs());
     setFlippedCards([]);
-    setFoundPairs(0); // Réinitialiser le nombre de paires trouvées
+    setLastFoundPair(null); // Réinitialiser la dernière paire trouvée
   }, []);
 
   useEffect(() => {
@@ -60,12 +60,12 @@ function App() {
         const card2 = cards.find((card) => card.id === secondId);
 
         if (card1 && card2 && card1.value === card2.value) {
-          setFoundPairs((prev) => prev + 1); // Augmenter le compteur de paires trouvées
+          setLastFoundPair(card1.value); // Mettre à jour la dernière paire trouvée
           setFlippedCards([]);
         } else {
           setCards((prevCards) =>
             prevCards.map((card) =>
-              card.id === firstId || card.id === secondId
+              card.id === firstId || secondId
                 ? { ...card, isFlipped: false }
                 : card
             )
@@ -78,6 +78,18 @@ function App() {
     }
   }, [flippedCards, cards]);
 
+  const getCustomMessage = (pair) => {
+    const messages = {
+      'A': "L'arcarne du 'Bateleur', elle représente de nouvelles opportunités, la créativité, le pouvoir et le potentiel.",
+      'B': "L'arcane de la 'Papesse' elle est symbole de la sagesse intérieure, du mystère et de la connaissance cachée.",
+      'C': "L'arcane de 'l'Impératrice' elle évoque la fertilité, la créativité et le pouvoir de la nature.",
+      // Ajoutez d'autres messages spécifiques pour chaque paire ici
+      'X': "Incroyable, vous avez trouvé la paire X !"
+    };
+
+    return messages[pair] || "Bonne trouvaille !"; // Message par défaut
+  };
+
   return (
     <div className="App">
       <BackgroundMusic />
@@ -88,16 +100,14 @@ function App() {
         ))}
         <img className="Igor" src={Igor} alt="Igor" />
       </div>
-      {foundPairs === 2 && (
-        <div className="congratulations-message">
-          Félicitations, vous avez trouvé 2 paires !
+      
+      {/* Afficher un message unique basé sur la dernière paire trouvée */}
+      {lastFoundPair && (
+        <div className="congratulations-message show">
+          {getCustomMessage(lastFoundPair)}
         </div>
-        
       )}
-         {/* Afficher le message seulement si foundPairs >= 2 */}
-         <div className={`congratulations-message ${foundPairs >= 1 ? 'show' : ''}`}>
-        Félicitations, vous avez trouvé 2 paires !
-      </div>
+
       <Button resetGame={resetGame} />
     </div>
   );
