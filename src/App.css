@@ -24,12 +24,20 @@ body {
   border-radius: 10px; /* Coins arrondis pour un aspect doux */
   overflow: hidden; /* Évite le débordement de contenu */
   filter: blur(0.5px);
+  transition: transform 0.7s; /* Ajoute une transition pour l'effet de rotation */
+  transform-style: preserve-3d; /* Préserve l'effet 3D lors de la rotation */
 }
 
 /* Effet de survol pour agrandir légèrement les cartes */
 .card-face , .card-back:hover {
   transform: scale(1.06); /* Agrandit la carte lors du survol */
 }
+
+/* Effet de rotation lors du clic sur la carte */
+.card-back:active {
+  transform: rotateY(180deg); /* Applique l'effet de rotation lors du clic */
+}
+
 
 /* Style pour le titre */
 h1 {
