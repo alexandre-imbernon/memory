@@ -1,4 +1,4 @@
-import { React, useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import './App.css';
 import Button from './components/Button/Button';
 import Card from './components/Card/Card';
@@ -26,34 +26,33 @@ function App() {
   const [cards, setCards] = useState(createCardPairs());
   const [flippedCards, setFlippedCards] = useState([]);
   const [isChecking, setIsChecking] = useState(false);
+  const [foundPairs, setFoundPairs] = useState(0);
 
   const flipCard = useCallback(
     (id) => {
       if (!isChecking && flippedCards.length < 2 && !flippedCards.includes(id)) {
-        setFlippedCards((prev) => {
-          const newFlippedCards = [...prev, id];
-          return newFlippedCards;
-        });
+        setFlippedCards((prev) => [...prev, id]);
 
-        // Mettre à jour le statut de la carte pour qu'elle se retourne
-        setCards((prevCards) => 
-          prevCards.map(card => 
+        setCards((prevCards) =>
+          prevCards.map((card) =>
             card.id === id ? { ...card, isFlipped: true } : card
           )
         );
       }
     },
-    [flippedCards, isChecking]
+    [isChecking, flippedCards]
   );
 
   const resetGame = useCallback(() => {
     setCards(createCardPairs());
     setFlippedCards([]);
+    setFoundPairs(0); // Réinitialiser le nombre de paires trouvées
   }, []);
 
   useEffect(() => {
     if (flippedCards.length === 2) {
       setIsChecking(true);
+
       const [firstId, secondId] = flippedCards;
 
       setTimeout(() => {
@@ -61,19 +60,19 @@ function App() {
         const card2 = cards.find((card) => card.id === secondId);
 
         if (card1 && card2 && card1.value === card2.value) {
-          // Les cartes correspondent, elles restent retournées
+          setFoundPairs((prev) => prev + 1); // Augmenter le compteur de paires trouvées
           setFlippedCards([]);
         } else {
-          // Les cartes ne correspondent pas, on les retourne
-          setCards((prevCards) => 
-            prevCards.map(card => 
-              card.id === firstId || card.id === secondId 
-              ? { ...card, isFlipped: false }
-              : card
+          setCards((prevCards) =>
+            prevCards.map((card) =>
+              card.id === firstId || card.id === secondId
+                ? { ...card, isFlipped: false }
+                : card
             )
           );
           setFlippedCards([]);
         }
+
         setIsChecking(false);
       }, 1000);
     }
@@ -88,6 +87,16 @@ function App() {
           <Card key={card.id} card={card} flipCard={flipCard} />
         ))}
         <img className="Igor" src={Igor} alt="Igor" />
+      </div>
+      {foundPairs === 2 && (
+        <div className="congratulations-message">
+          Félicitations, vous avez trouvé 2 paires !
+        </div>
+        
+      )}
+         {/* Afficher le message seulement si foundPairs >= 2 */}
+         <div className={`congratulations-message ${foundPairs >= 1 ? 'show' : ''}`}>
+        Félicitations, vous avez trouvé 2 paires !
       </div>
       <Button resetGame={resetGame} />
     </div>

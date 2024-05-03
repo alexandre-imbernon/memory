@@ -24,7 +24,7 @@ body {
   border-radius: 10px; /* Coins arrondis pour un aspect doux */
   overflow: hidden; /* Évite le débordement de contenu */
   filter: blur(0.5px);
-  transition: transform 0.7s; /* Ajoute une transition pour l'effet de rotation */
+  transition: transform 0.8s; 
   transform-style: preserve-3d; /* Préserve l'effet 3D lors de la rotation */
 }
 
@@ -61,4 +61,27 @@ button {
   bottom: 0; /* Positionné en bas de la page */
   left: 50%; /* Positionné au milieu de la page */
   transform: translateX(-50%); /* Déplace l'image à gauche de sa moitié pour la centrer parfaitement */
+}
+
+.App {
+  position: relative;
+}
+
+.congratulations-message {
+  position: absolute; /* Ou fixed, si vous voulez que le message reste au centre même lors du défilement */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Pour centrer le message */
+  background-color: rgba(0, 0, 0, 0.7); /* Contexte avec transparence pour un meilleur contraste */
+  color: white; /* Couleur de texte */
+  padding: 1em; /* Espacement autour du texte */
+  border-radius: 8px; /* Coins arrondis */
+  font-size: 1.2em; /* Taille de police */
+  text-align: center; /* Pour centrer le texte */
+  opacity: 0; /* Pour l'animation */
+  transition: opacity 0.5s; /* Transition d'opacité */
+}
+
+.congratulations-message.show {
+  opacity: 1; /* Transition pour rendre le message visible */
 }

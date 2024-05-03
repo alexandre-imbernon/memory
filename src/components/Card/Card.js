@@ -57,13 +57,10 @@ const getCardImage = (value) => {
 };
 
 const Card = ({ card, flipCard }) => {
-  console.log(`Rendering card ${card.id}, isFlipped: ${card.isFlipped}`);
   const handleCardClick = useCallback(() => {
-    console.log(`Card ${card.id} clicked`);
     flipCard(card.id);
   }, [flipCard, card.id]); // Assurez-vous que la fonction reste stable entre les rendus
 
-  console.log(flipCard);
   return (
     <div className="card" onClick={handleCardClick}>
       {card.isFlipped ? (
