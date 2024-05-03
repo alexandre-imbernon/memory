@@ -1,14 +1,12 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import { React, useState, useCallback, useEffect } from 'react';
 import './App.css';
 import Button from './components/Button/Button';
 import Card from './components/Card/Card';
 import Title from './components/Title/Title';
 import BackgroundMusic from './components/Music/Music';
-import Igor from "./assets/igor.png";
+import Igor from './assets/igor.png';
 
-const shuffleArray = (array) => {
-  return array.sort(() => Math.random() - 0.5);
-};
+const shuffleArray = (array) => array.sort(() => Math.random() - 0.5);
 
 function App() {
   const cardValues = [
@@ -20,19 +18,33 @@ function App() {
     const selectedValues = shuffledValues.slice(0, 4); // Choisir 4 paires aléatoires
     const pairs = selectedValues.flatMap((value) => [
       { id: `${value}1`, value, isFlipped: false },
-      { id: `${value}2`, value, isFlipped: false }
+      { id: `${value}2`, value, isFlipped: false },
     ]);
-    return shuffleArray(pairs); // Mélanger les 8 cartes sélectionnées
+    return shuffleArray(pairs);
   };
 
   const [cards, setCards] = useState(createCardPairs());
   const [flippedCards, setFlippedCards] = useState([]);
+  const [isChecking, setIsChecking] = useState(false);
 
-  const flipCard = useCallback((id) => {
-    if (flippedCards.length < 2) {
-      setFlippedCards((prev) => [...prev, id]);
-    }
-  }, [flippedCards]);
+  const flipCard = useCallback(
+    (id) => {
+      if (!isChecking && flippedCards.length < 2 && !flippedCards.includes(id)) {
+        setFlippedCards((prev) => {
+          const newFlippedCards = [...prev, id];
+          return newFlippedCards;
+        });
+
+        // Mettre à jour le statut de la carte pour qu'elle se retourne
+        setCards((prevCards) => 
+          prevCards.map(card => 
+            card.id === id ? { ...card, isFlipped: true } : card
+          )
+        );
+      }
+    },
+    [flippedCards, isChecking]
+  );
 
   const resetGame = useCallback(() => {
     setCards(createCardPairs());
@@ -41,23 +53,28 @@ function App() {
 
   useEffect(() => {
     if (flippedCards.length === 2) {
+      setIsChecking(true);
       const [firstId, secondId] = flippedCards;
-      const card1 = cards.find((card) => card.id === firstId);
-      const card2 = cards.find((card) => card.id === secondId);
-
-      if (card1.value === card2.value) {
-        setCards((prev) =>
-          prev.map((card) => {
-            if (card.id === firstId || card.id === secondId) {
-              return { ...card, isFlipped: true };
-            }
-            return card;
-          })
-        );
-      }
 
       setTimeout(() => {
-        setFlippedCards([]);
+        const card1 = cards.find((card) => card.id === firstId);
+        const card2 = cards.find((card) => card.id === secondId);
+
+        if (card1 && card2 && card1.value === card2.value) {
+          // Les cartes correspondent, elles restent retournées
+          setFlippedCards([]);
+        } else {
+          // Les cartes ne correspondent pas, on les retourne
+          setCards((prevCards) => 
+            prevCards.map(card => 
+              card.id === firstId || card.id === secondId 
+              ? { ...card, isFlipped: false }
+              : card
+            )
+          );
+          setFlippedCards([]);
+        }
+        setIsChecking(false);
       }, 1000);
     }
   }, [flippedCards, cards]);
@@ -70,7 +87,7 @@ function App() {
         {cards.map((card) => (
           <Card key={card.id} card={card} flipCard={flipCard} />
         ))}
-          <img className="Igor" src={Igor} alt="Igor" />
+        <img className="Igor" src={Igor} alt="Igor" />
       </div>
       <Button resetGame={resetGame} />
     </div>

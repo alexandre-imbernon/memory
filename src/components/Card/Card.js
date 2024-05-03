@@ -1,4 +1,4 @@
-import React from 'react';
+import { React, useState, useCallback } from 'react';
 
 import backImage from '../../assets/cardreverse.png'; // Dos de la carte
 
@@ -57,12 +57,17 @@ const getCardImage = (value) => {
 };
 
 const Card = ({ card, flipCard }) => {
-  const frontImage = getCardImage(card.value);
+  console.log(`Rendering card ${card.id}, isFlipped: ${card.isFlipped}`);
+  const handleCardClick = useCallback(() => {
+    console.log(`Card ${card.id} clicked`);
+    flipCard(card.id);
+  }, [flipCard, card.id]); // Assurez-vous que la fonction reste stable entre les rendus
 
+  console.log(flipCard);
   return (
-    <div onClick={() => flipCard(card.id)}>
+    <div className="card" onClick={handleCardClick}>
       {card.isFlipped ? (
-        <img className="card-face" src={frontImage} alt={`Carte ${card.value}`} />
+        <img className="card-face" src={getCardImage(card.value)} alt={`Carte ${card.value}`} />
       ) : (
         <img className="card-back" src={backImage} alt="Dos de la carte" />
       )}
