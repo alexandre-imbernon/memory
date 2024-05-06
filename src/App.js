@@ -1,29 +1,22 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import Button from './components/Button/Button';
 import Card from './components/Card/Card';
 import Title from './components/Title/Title';
 import BackgroundMusic from './components/Music/Music';
 import Igor from './assets/igor.png';
+import cardFlipSound from './assets/00118_streaming.wav';
+
+
 
 const shuffleArray = (array) => array.sort(() => Math.random() - 0.5);
 
+const cardValues = [
+  'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X'
+];
+
 function App() {
-  const cardValues = [
-    'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X'
-  ];
-
-  const createCardPairs = () => {
-    const shuffledValues = shuffleArray([...cardValues]);
-    const selectedValues = shuffledValues.slice(0, 4);
-    const pairs = selectedValues.flatMap((value) => [
-      { id: `${value}1`, value, isFlipped: false, isMatched: false },
-      { id: `${value}2`, value, isFlipped: false, isMatched: false },
-    ]);
-    return shuffleArray(pairs);
-  };
-
-  const [cards, setCards] = useState(createCardPairs());
+  const [cards, setCards] = useState([]);
   const [flippedCards, setFlippedCards] = useState([]);
   const [isChecking, setIsChecking] = useState(false);
   const [lastFoundPair, setLastFoundPair] = useState(null);
@@ -32,31 +25,47 @@ function App() {
   const [timer, setTimer] = useState(null);
   const [timeLeft, setTimeLeft] = useState(30);
 
-  const flipCard = useCallback(
-    (id) => {
-      const card = cards.find((card) => card.id === id);
-      if (!gameOver && !isChecking && flippedCards.length < 2 && !flippedCards.includes(id) && card && !card.isMatched) {
-        setFlippedCards((prev) => [...prev, id]);
-  
-        setCards((prevCards) =>
-          prevCards.map((card) =>
-            card.id === id ? { ...card, isFlipped: true } : card
-          )
-        );
-  
-        if (flippedCards.length === 0 && !timer) {
-          const newTimer = setInterval(() => {
-            setTimeLeft((prevTime) => prevTime - 1);
-          }, 1000);
-          setTimer(newTimer);
-        }
-      }
-    },
-    [gameOver, isChecking, flippedCards, cards, timer]
-  );
+  useEffect(() => {
+    const shuffledValues = shuffleArray([...cardValues]);
+    const selectedValues = shuffledValues.slice(0, 4);
+    const pairs = selectedValues.flatMap((value) => [
+      { id: `${value}1`, value, isFlipped: false, isMatched: false },
+      { id: `${value}2`, value, isFlipped: false, isMatched: false },
+    ]);
+    setCards(shuffleArray(pairs));
+  }, []);
 
-  const resetGame = useCallback(() => {
-    setCards(createCardPairs());
+  const flipCard = (id) => {
+    if (gameOver || isChecking || flippedCards.length >= 2) return;
+    const card = cards.find((card) => card.id === id);
+    if (card && !card.isMatched) {
+      // Play the card flip sound
+      new Audio(cardFlipSound).play();
+  
+      setFlippedCards((prev) => [...prev, id]);
+      setCards((prevCards) =>
+        prevCards.map((card) =>
+          card.id === id ? { ...card, isFlipped: true } : card
+        )
+      );
+      if (flippedCards.length === 0 && !timer) {
+        const newTimer = setInterval(() => {
+          setTimeLeft((prevTime) => prevTime - 1);
+        }, 1000);
+        setTimer(newTimer);
+      }
+    }
+  };
+  
+
+  const resetGame = () => {
+    const shuffledValues = shuffleArray([...cardValues]);
+    const selectedValues = shuffledValues.slice(0, 4);
+    const pairs = selectedValues.flatMap((value) => [
+      { id: `${value}1`, value, isFlipped: false, isMatched: false },
+      { id: `${value}2`, value, isFlipped: false, isMatched: false },
+    ]);
+    setCards(shuffleArray(pairs));
     setFlippedCards([]);
     setLastFoundPair(null);
     clearInterval(timer);
@@ -64,22 +73,18 @@ function App() {
     setGameOver(false);
     setGameWon(false);
     setTimeLeft(30);
-  }, [timer]);
+  };
 
   useEffect(() => {
     if (flippedCards.length === 2) {
       setIsChecking(true);
-
-      const [firstId, secondId] = flippedCards;
-
       setTimeout(() => {
+        const [firstId, secondId] = flippedCards;
         const card1 = cards.find((card) => card.id === firstId);
         const card2 = cards.find((card) => card.id === secondId);
-    
         if (card1 && card2 && card1.value === card2.value) {
           setLastFoundPair(card1.value);
           setFlippedCards([]);
-
           setCards((prevCards) =>
             prevCards.map((card) =>
               card.id === firstId || card.id === secondId
@@ -97,7 +102,6 @@ function App() {
           );
           setFlippedCards([]);
         }
-    
         setIsChecking(false);
       }, 1000);
     }
@@ -108,7 +112,6 @@ function App() {
       clearInterval(timer);
       setGameWon(true);
     }
-
     if (timeLeft === 0) {
       clearInterval(timer);
       setGameOver(true);

@@ -46,6 +46,7 @@ h1 {
   filter: blur(0.3px);
 }
 
+
 .timer {
   font-size: 2em; /* Taille de police pour le titre */
   margin-left: 20px; 
@@ -59,6 +60,8 @@ button {
   margin: 10px;
 }
 
+
+
 .Igor {
   width: 15%; /* Largeur de la carte */
   height: auto; /* Hauteur de la carte */
@@ -68,9 +71,6 @@ button {
   transform: translateX(-50%); /* Déplace l'image à gauche de sa moitié pour la centrer parfaitement */
 }
 
-.App {
-  position: relative;
-}
 
 .congratulations-message {
   background-color: rgba(33, 69, 148, 0.808); /* Contexte avec transparence pour un meilleur contraste */
