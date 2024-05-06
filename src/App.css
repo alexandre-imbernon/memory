@@ -7,7 +7,6 @@ body {
   background-size:cover; /* L'image couvre tout l'arrière-plan */
 }
 
-/* Conteneur pour les cartes */
 .card-container {
   display: flex;
   flex-wrap: wrap; /* Permet aux cartes de s'organiser automatiquement */
@@ -30,7 +29,7 @@ body {
 
 /* Effet de survol pour agrandir légèrement les cartes */
 .card-face , .card-back:hover {
-  transform: scale(1.06); /* Agrandit la carte lors du survol */
+  transform: scale(1.07); /* Agrandit la carte lors du survol */
 }
 
 /* Effet de rotation lors du clic sur la carte */
@@ -44,6 +43,12 @@ h1 {
   font-size: 2em; /* Taille de police pour le titre */
   margin-left: 20px; 
   margin-bottom: 20px; /* Espace sous le titre */
+  filter: blur(0.3px);
+}
+
+.timer {
+  font-size: 2em; /* Taille de police pour le titre */
+  margin-left: 20px; 
   filter: blur(0.3px);
 }
 
@@ -73,7 +78,6 @@ button {
   padding: 1em; /* Espacement autour du texte */
   font-size: 1.2em; /* Taille de police */
   text-align: center; /* Pour centrer le texte */
-
 }
 
 .congratulations-message.show {

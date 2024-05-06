@@ -26,11 +26,16 @@ function App() {
   const [cards, setCards] = useState(createCardPairs());
   const [flippedCards, setFlippedCards] = useState([]);
   const [isChecking, setIsChecking] = useState(false);
-  const [lastFoundPair, setLastFoundPair] = useState(null); // La dernière paire trouvée
+  const [lastFoundPair, setLastFoundPair] = useState(null);
+  const [gameOver, setGameOver] = useState(false);
+  const [gameWon, setGameWon] = useState(false);
+  const [timer, setTimer] = useState(null);
+  const [timeLeft, setTimeLeft] = useState(30);
+
   const flipCard = useCallback(
     (id) => {
       const card = cards.find((card) => card.id === id);
-      if (!isChecking && flippedCards.length < 2 && !flippedCards.includes(id) && card && !card.isMatched) {
+      if (!gameOver && !isChecking && flippedCards.length < 2 && !flippedCards.includes(id) && card && !card.isMatched) {
         setFlippedCards((prev) => [...prev, id]);
   
         setCards((prevCards) =>
@@ -38,59 +43,77 @@ function App() {
             card.id === id ? { ...card, isFlipped: true } : card
           )
         );
+  
+        if (flippedCards.length === 0 && !timer) {
+          const newTimer = setInterval(() => {
+            setTimeLeft((prevTime) => prevTime - 1);
+          }, 1000);
+          setTimer(newTimer);
+        }
       }
     },
-    [isChecking, flippedCards, cards]
+    [gameOver, isChecking, flippedCards, cards, timer]
   );
-  
-  
-  
-  
 
   const resetGame = useCallback(() => {
     setCards(createCardPairs());
     setFlippedCards([]);
-    setLastFoundPair(null); // Réinitialiser la dernière paire trouvée
-  }, []);
+    setLastFoundPair(null);
+    clearInterval(timer);
+    setTimer(null);
+    setGameOver(false);
+    setGameWon(false);
+    setTimeLeft(30);
+  }, [timer]);
 
-useEffect(() => {
-  if (flippedCards.length === 2) {
-    setIsChecking(true);
+  useEffect(() => {
+    if (flippedCards.length === 2) {
+      setIsChecking(true);
 
-    const [firstId, secondId] = flippedCards;
+      const [firstId, secondId] = flippedCards;
 
-    setTimeout(() => {
-      const card1 = cards.find((card) => card.id === firstId);
-      const card2 = cards.find((card) => card.id === secondId);
+      setTimeout(() => {
+        const card1 = cards.find((card) => card.id === firstId);
+        const card2 = cards.find((card) => card.id === secondId);
     
-      if (card1 && card2 && card1.value === card2.value) {
-        setLastFoundPair(card1.value);
-        setFlippedCards([]);
+        if (card1 && card2 && card1.value === card2.value) {
+          setLastFoundPair(card1.value);
+          setFlippedCards([]);
 
-        // Mettez à jour 'isMatched' pour les deux cartes
-        setCards((prevCards) =>
-          prevCards.map((card) =>
-            card.id === firstId || card.id === secondId
-              ? { ...card, isMatched: true }
-              : card
-          )
-        );
-      } else {
-        setCards((prevCards) =>
-          prevCards.map((card) =>
-            (card.id === firstId || card.id === secondId) && !card.isMatched
-              ? { ...card, isFlipped: false }
-              : card
-          )
-        );
-        setFlippedCards([]);
-      }
+          setCards((prevCards) =>
+            prevCards.map((card) =>
+              card.id === firstId || card.id === secondId
+                ? { ...card, isMatched: true }
+                : card
+            )
+          );
+        } else {
+          setCards((prevCards) =>
+            prevCards.map((card) =>
+              (card.id === firstId || card.id === secondId) && !card.isMatched
+                ? { ...card, isFlipped: false }
+                : card
+            )
+          );
+          setFlippedCards([]);
+        }
     
-      setIsChecking(false);
-    }, 1000);
-    
-  }
-}, [flippedCards, cards]);
+        setIsChecking(false);
+      }, 1000);
+    }
+  }, [flippedCards, cards]);
+
+  useEffect(() => {
+    if (cards.every((card) => card.isMatched)) {
+      clearInterval(timer);
+      setGameWon(true);
+    }
+
+    if (timeLeft === 0) {
+      clearInterval(timer);
+      setGameOver(true);
+    }
+  }, [cards, timer, timeLeft]);
 
   const getCustomMessage = (pair) => {
     const messages = {
@@ -116,10 +139,9 @@ useEffect(() => {
       'T': "L'arcane du 'Soleil', évoque le succès, le bonheur, et la clarté.",
       'U': "L'arcane du 'Jugement', elle symbolise le renouveau, la résurrection, et les appels à l'action.",
       'V': "L'arcane du 'Monde', elle représente l'accomplissement, la complétion, et la réalisation.",
-      };
+    };
 
-      
-    return messages[pair] || "Bonne trouvaille !"; // Message par défaut
+    return messages[pair] || "Bien joué !";
   };
 
   return (
@@ -132,12 +154,14 @@ useEffect(() => {
         ))}
         <img className="Igor" src={Igor} alt="Igor" />
       </div>
-            {lastFoundPair && (
+      {lastFoundPair && (
         <div className="congratulations-message show">
           {getCustomMessage(lastFoundPair)}
         </div>
       )}
-
+      <div className="timer">⧗ : {timeLeft}</div>
+      {gameOver && <div className="game-over-message">Game Over</div>}
+      {gameWon && <div className="game-won-message">Vous avez gagné!</div>}
       <Button resetGame={resetGame} />
     </div>
   );
