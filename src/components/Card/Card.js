@@ -57,10 +57,13 @@ const getCardImage = (value) => {
 const Card = ({ card, flipCard }) => {
   const handleCardClick = useCallback(() => {
     flipCard(card.id);
-  }, [flipCard, card.id]); // Assurez-vous que la fonction reste stable entre les rendus
+  }, [flipCard, card.id]);
+
+  // Ajoutez la classe 'card-disabled' si la carte est appariée
+  const cardClass = `card ${card.isMatched ? 'card-disabled' : ''}`;
 
   return (
-    <div className="card" onClick={handleCardClick}>
+    <div className={cardClass} onClick={handleCardClick}>
       {card.isFlipped ? (
         <img className="card-face" src={getCardImage(card.value)} alt={`Carte ${card.value}`} />
       ) : (

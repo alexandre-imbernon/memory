@@ -68,20 +68,19 @@ button {
 }
 
 .congratulations-message {
-  position: absolute; /* Ou fixed, si vous voulez que le message reste au centre même lors du défilement */
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%); /* Pour centrer le message */
-  background-color: rgba(0, 0, 0, 0.7); /* Contexte avec transparence pour un meilleur contraste */
+  background-color: rgba(33, 69, 148, 0.808); /* Contexte avec transparence pour un meilleur contraste */
   color: white; /* Couleur de texte */
   padding: 1em; /* Espacement autour du texte */
-  border-radius: 8px; /* Coins arrondis */
   font-size: 1.2em; /* Taille de police */
   text-align: center; /* Pour centrer le texte */
-  opacity: 0; /* Pour l'animation */
-  transition: opacity 0.5s; /* Transition d'opacité */
+
 }
 
 .congratulations-message.show {
   opacity: 1; /* Transition pour rendre le message visible */
+}
+
+.card-disabled {
+  opacity: 0.8; /* Rend la carte semi-transparente */
+  pointer-events: none; /* Désactive les interactions utilisateur */
 }

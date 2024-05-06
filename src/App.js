@@ -15,10 +15,10 @@ function App() {
 
   const createCardPairs = () => {
     const shuffledValues = shuffleArray([...cardValues]);
-    const selectedValues = shuffledValues.slice(0, 4); // Choisir 4 paires aléatoires
+    const selectedValues = shuffledValues.slice(0, 4);
     const pairs = selectedValues.flatMap((value) => [
-      { id: `${value}1`, value, isFlipped: false },
-      { id: `${value}2`, value, isFlipped: false },
+      { id: `${value}1`, value, isFlipped: false, isMatched: false },
+      { id: `${value}2`, value, isFlipped: false, isMatched: false },
     ]);
     return shuffleArray(pairs);
   };
@@ -27,12 +27,12 @@ function App() {
   const [flippedCards, setFlippedCards] = useState([]);
   const [isChecking, setIsChecking] = useState(false);
   const [lastFoundPair, setLastFoundPair] = useState(null); // La dernière paire trouvée
-
   const flipCard = useCallback(
     (id) => {
-      if (!isChecking && flippedCards.length < 2 && !flippedCards.includes(id)) {
+      const card = cards.find((card) => card.id === id);
+      if (!isChecking && flippedCards.length < 2 && !flippedCards.includes(id) && card && !card.isMatched) {
         setFlippedCards((prev) => [...prev, id]);
-
+  
         setCards((prevCards) =>
           prevCards.map((card) =>
             card.id === id ? { ...card, isFlipped: true } : card
@@ -40,8 +40,12 @@ function App() {
         );
       }
     },
-    [isChecking, flippedCards]
+    [isChecking, flippedCards, cards]
   );
+  
+  
+  
+  
 
   const resetGame = useCallback(() => {
     setCards(createCardPairs());
@@ -49,34 +53,44 @@ function App() {
     setLastFoundPair(null); // Réinitialiser la dernière paire trouvée
   }, []);
 
-  useEffect(() => {
-    if (flippedCards.length === 2) {
-      setIsChecking(true);
+useEffect(() => {
+  if (flippedCards.length === 2) {
+    setIsChecking(true);
 
-      const [firstId, secondId] = flippedCards;
+    const [firstId, secondId] = flippedCards;
 
-      setTimeout(() => {
-        const card1 = cards.find((card) => card.id === firstId);
-        const card2 = cards.find((card) => card.id === secondId);
+    setTimeout(() => {
+      const card1 = cards.find((card) => card.id === firstId);
+      const card2 = cards.find((card) => card.id === secondId);
+    
+      if (card1 && card2 && card1.value === card2.value) {
+        setLastFoundPair(card1.value);
+        setFlippedCards([]);
 
-        if (card1 && card2 && card1.value === card2.value) {
-          setLastFoundPair(card1.value); // Mettre à jour la dernière paire trouvée
-          setFlippedCards([]);
-        } else {
-          setCards((prevCards) =>
-            prevCards.map((card) =>
-              card.id === firstId || secondId
-                ? { ...card, isFlipped: false }
-                : card
-            )
-          );
-          setFlippedCards([]);
-        }
-
-        setIsChecking(false);
-      }, 1000);
-    }
-  }, [flippedCards, cards]);
+        // Mettez à jour 'isMatched' pour les deux cartes
+        setCards((prevCards) =>
+          prevCards.map((card) =>
+            card.id === firstId || card.id === secondId
+              ? { ...card, isMatched: true }
+              : card
+          )
+        );
+      } else {
+        setCards((prevCards) =>
+          prevCards.map((card) =>
+            (card.id === firstId || card.id === secondId) && !card.isMatched
+              ? { ...card, isFlipped: false }
+              : card
+          )
+        );
+        setFlippedCards([]);
+      }
+    
+      setIsChecking(false);
+    }, 1000);
+    
+  }
+}, [flippedCards, cards]);
 
   const getCustomMessage = (pair) => {
     const messages = {
@@ -114,13 +128,11 @@ function App() {
       <Title />
       <div className="card-container">
         {cards.map((card) => (
-          <Card key={card.id} card={card} flipCard={flipCard} />
+          <Card key={card.id} card={card} flipCard={flipCard} isChecking={isChecking} />
         ))}
         <img className="Igor" src={Igor} alt="Igor" />
       </div>
-      
-      {/* Afficher un message unique basé sur la dernière paire trouvée */}
-      {lastFoundPair && (
+            {lastFoundPair && (
         <div className="congratulations-message show">
           {getCustomMessage(lastFoundPair)}
         </div>
