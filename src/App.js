@@ -80,12 +80,29 @@ function App() {
 
   const getCustomMessage = (pair) => {
     const messages = {
-      'A': "L'arcarne du 'Bateleur', elle représente de nouvelles opportunités, la créativité, le pouvoir et le potentiel.",
-      'B': "L'arcane de la 'Papesse' elle est symbole de la sagesse intérieure, du mystère et de la connaissance cachée.",
-      'C': "L'arcane de 'l'Impératrice' elle évoque la fertilité, la créativité et le pouvoir de la nature.",
-      // Ajoutez d'autres messages spécifiques pour chaque paire ici
-      'X': "Incroyable, vous avez trouvé la paire X !"
-    };
+      'A': "L'arcane du 'Mat', symbole de l'aventure, de la liberté, et de la spontanéité.",
+      'B': "L'arcane du 'Bateleur', elle représente de nouvelles opportunités, la créativité, le pouvoir et le potentiel.",
+      'C': "L'arcane de la 'Papesse', symbole de la sagesse intérieure, du mystère et de la connaissance cachée.",
+      'D': "L'arcane de 'L'Impératrice', elle évoque la fertilité, la créativité et le pouvoir de la nature.",
+      'E': "L'arcane de 'L'Empereur', elle représente l'autorité, la stabilité et le contrôle.",
+      'F': "L'arcane du 'Pape', symbolise les croyances, la spiritualité et la tradition.",
+      'G': "L'arcane de 'L'Amoureux', elle représente le conflit entre choix, amour et relations personnelles.",
+      'H': "L'arcane du 'Chariot', elle indique la victoire, le mouvement, et le contrôle de soi.",
+      'I': "L'arcane de la 'Justice', elle représente l'équilibre, l'équité, et la vérité.",
+      'J': "L'arcane de 'L'Hermite', symbole de la réflexion, de la recherche intérieure, et de l'isolement.",
+      'K': "L'arcane de 'La Roue de Fortune', évoque le changement, le destin, et les cycles de vie.",
+      'L': "L'arcane de la 'Force', symbolise le courage, la maîtrise de soi, et la force intérieure.",
+      'M': "L'arcane du 'Pendu', elle représente le sacrifice, la suspension, et une perspective différente.",
+      'N': "L'Arcane sans Nom, la 'Mort', symbole de transformation, de fin, et de renouveau.",
+      'O': "L'arcane de la 'Tempérance', symbole de l'équilibre, la modération, et l'harmonie.",
+      'P': "L'arcane du 'Diable', représente les tentations, les dépendances, et les désirs cachés.",
+      'Q': "L'arcane de la 'Maison Dieu', elle évoque la catastrophe, le choc, et la destruction nécessaire.",
+      'R': "L'arcane de 'L'Étoile', symbole d'espoir, d'inspiration, et de spiritualité.",
+      'S': "L'arcane de la 'Lune', elle représente l'illusion, le subconscient, et les rêves.",
+      'T': "L'arcane du 'Soleil', évoque le succès, le bonheur, et la clarté.",
+      'U': "L'arcane du 'Jugement', elle symbolise le renouveau, la résurrection, et les appels à l'action.",
+      'V': "L'arcane du 'Monde', elle représente l'accomplissement, la complétion, et la réalisation.",
+      };
 
     return messages[pair] || "Bonne trouvaille !"; // Message par défaut
   };

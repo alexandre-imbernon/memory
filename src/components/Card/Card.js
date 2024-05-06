@@ -24,7 +24,6 @@ import cardSImage from '../../assets/card19.png';
 import cardTImage from '../../assets/card20.png'; 
 import cardUImage from '../../assets/card21.png'; 
 import cardVImage from '../../assets/card22.png'; 
-import cardWImage from '../../assets/card23.png'; 
 
 const getCardImage = (value) => {
   const cardImages = {
@@ -50,7 +49,6 @@ const getCardImage = (value) => {
     'T': cardTImage,
     'U': cardUImage,
     'V': cardVImage,
-    'W': cardWImage,
   };
 
   return cardImages[value] || backImage; 
