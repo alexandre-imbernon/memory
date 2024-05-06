@@ -104,6 +104,7 @@ function App() {
       'V': "L'arcane du 'Monde', elle représente l'accomplissement, la complétion, et la réalisation.",
       };
 
+      
     return messages[pair] || "Bonne trouvaille !"; // Message par défaut
   };
 
