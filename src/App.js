@@ -5,6 +5,7 @@ import Card from './components/Card/Card';
 import Title from './components/Title/Title';
 import BackgroundMusic from './components/Music/Music';
 import Igor from './assets/igor.png';
+import Igorclosedeyes from './assets/igorclosedeyes.png';
 import cardFlipSound from './assets/00118_streaming.wav';
 
 const shuffleArray = (array) => array.sort(() => Math.random() - 0.5);
@@ -150,13 +151,17 @@ const flipCard = (id) => {
       {/* Placez le timer ici, juste après le titre */}
       <div className="timer">⧗ : {timeLeft}</div>
       
-      <div className="card-container">
+        <div className="card-container">
         {cards.map((card) => (
           <Card key={card.id} card={card} flipCard={flipCard} isChecking={isChecking} />
         ))}
-        <img className="Igor" src={Igor} alt="Igor" />
+        
+        {/* Conteneur de superposition pour Igor avec survol */}
+        <div className="image-hover-container">
+          <img className="Igor" src={Igor} alt="Igor" />
+          <img className="Igorclosedeyes" src={Igorclosedeyes} alt="Image superposée" />
+        </div>
       </div>
-      
       {lastFoundPair && (
         <div className="congratulations-message show">
           {getCustomMessage(lastFoundPair)}

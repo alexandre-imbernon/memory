@@ -4,55 +4,54 @@ body {
   color: white;
   background-image: url(../src/assets/7ff964a9741b39ee2716f0cb202951aa.jpg);
   background-repeat: no-repeat;
-  background-size:cover; /* L'image couvre tout l'arrière-plan */
+  background-size: cover; /* L'image couvre tout l'arrière-plan */
 }
 
+/* Styles communs pour les titres */
+h1, .timer {
+  font-size: 2em; /* Taille de police */
+  margin-left: 20px; 
+  filter: blur(0.3px);
+}
+
+h1 {
+  margin-bottom: 20px; /* Espace sous le titre */
+}
+
+/* Style pour les cartes */
 .card-container {
   display: flex;
-  flex-wrap: wrap; /* Permet aux cartes de s'organiser automatiquement */
+  flex-wrap: wrap; /* Organise automatiquement les cartes */
   justify-content: center; /* Centre le contenu */
-  gap: 20px; /* Ajoute de l'espace entre les cartes */
-  margin-top: 10%; /* Ajoute de l'espace au-dessus des cartes */
+  gap: 20px; /* Espace entre les cartes */
+  margin-top: 3%; /* Espace au-dessus des cartes */
 }
 
-/* Style pour chaque carte */
-.card-face , .card-back {
-  width: 100px; /* Largeur de la carte */
-  height: 150px; /* Hauteur de la carte */
-  border: 1.5px solid white; /* Ajoute une bordure autour de la carte */
-  border-radius: 10px; /* Coins arrondis pour un aspect doux */
+.card-face, .card-back {
+  width: 100px; /* Largeur des cartes */
+  height: 150px; /* Hauteur des cartes */
+  border: 1.5px solid white; /* Bordure autour des cartes */
+  border-radius: 10px; /* Coins arrondis */
   overflow: hidden; /* Évite le débordement de contenu */
-  filter: blur(0.5px);
+  filter: blur(0.5px); /* Légère flou */
   transition: transform 0.8s; 
   transform-style: preserve-3d; /* Préserve l'effet 3D lors de la rotation */
 }
 
-/* Effet de survol pour agrandir légèrement les cartes */
-.card-face , .card-back:hover {
+.card-face:hover, .card-back:hover {
   transform: scale(1.07); /* Agrandit la carte lors du survol */
 }
 
-/* Effet de rotation lors du clic sur la carte */
 .card-back:active {
   transform: rotateY(180deg); /* Applique l'effet de rotation lors du clic */
 }
 
-
-/* Style pour le titre */
-h1 {
-  font-size: 2em; /* Taille de police pour le titre */
-  margin-left: 20px; 
-  margin-bottom: 20px; /* Espace sous le titre */
-  filter: blur(0.3px);
+.card-disabled {
+  opacity: 0.8; /* Semi-transparent */
+  pointer-events: none; /* Désactive les interactions utilisateur */
 }
 
-
-.timer {
-  font-size: 2em; /* Taille de police pour le titre */
-  margin-left: 20px; 
-  filter: blur(0.3px);
-}
-
+/* Styles pour les boutons */
 button {
   position: fixed;
   bottom: 0;
@@ -60,44 +59,47 @@ button {
   margin: 10px;
 }
 
-
-
-.Igor {
-  width: 15%; /* Largeur de la carte */
-  height: auto; /* Hauteur de la carte */
+/* Styles pour Igor */
+.Igor, .Igorclosedeyes {
+  width: 15%; /* Largeur des images */
+  height: auto; /* Hauteur auto */
   position: fixed; /* Position fixe par rapport à la fenêtre du navigateur */
-  bottom: 0; /* Positionné en bas de la page */
-  left: 50%; /* Positionné au milieu de la page */
-  transform: translateX(-50%); /* Déplace l'image à gauche de sa moitié pour la centrer parfaitement */
+  bottom: 0; /* Position en bas */
+  left: 42%; /* Position centré */
 }
 
+.Igor {
+  z-index: 1; /* Niveau de superposition par défaut */
+}
 
+.Igor:hover {
+  transform: scale(1.5); /* Agrandit lors du survol */
+  z-index: 2; /* Augmente le z-index */
+}
+
+.Igorclosedeyes {
+  opacity: 0; /* Caché par défaut */
+  z-index: 0; /* Derrière Igor */
+}
+
+.image-hover-container:hover .Igorclosedeyes {
+  opacity: 1; /* Rendre visible lors du survol */
+  transform: scale(1.5); /* Agrandit lors du survol */
+  z-index: 3; /* Devant Igor */
+}
+
+/* Style pour le message de félicitations */
 .congratulations-message {
-  background-color: rgba(33, 69, 148, 0.808); /* Contexte avec transparence pour un meilleur contraste */
+  background-color: rgba(33, 69, 148, 0.808); /* Couleur de fond translucide */
   color: white; /* Couleur de texte */
-  padding: 1em; /* Espacement autour du texte */
+  padding: 1em; /* Espace autour du texte */
   font-size: 1.2em; /* Taille de police */
-  text-align: center; /* Pour centrer le texte */
+  text-align: center; /* Centrer le texte */
+  margin-top: 1.5%; /* Espace au-dessus */
+  opacity: 0; /* Caché par défaut */
+  transition: opacity 0.5s; /* Transition de l'opacité */
 }
 
 .congratulations-message.show {
-  opacity: 1; /* Transition pour rendre le message visible */
-}
-
-.card-disabled {
-  opacity: 0.8; /* Rend la carte semi-transparente */
-  pointer-events: none; /* Désactive les interactions utilisateur */
-}
-
-@keyframes card-unflip {
-  0% {
-    transform: rotateY(180deg);
-  }
-  100% {
-    transform: rotateY(0deg);
-  }
-}
-
-.card-unflip {
-  animation: card-unflip 0.8s forwards; /* Durée de l'animation */
+  opacity: 1; /* Rendre visible */
 }
