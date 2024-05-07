@@ -88,3 +88,16 @@ button {
   opacity: 0.8; /* Rend la carte semi-transparente */
   pointer-events: none; /* Désactive les interactions utilisateur */
 }
+
+@keyframes card-unflip {
+  0% {
+    transform: rotateY(180deg);
+  }
+  100% {
+    transform: rotateY(0deg);
+  }
+}
+
+.card-unflip {
+  animation: card-unflip 0.8s forwards; /* Durée de l'animation */
+}

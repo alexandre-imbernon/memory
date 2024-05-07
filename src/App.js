@@ -7,8 +7,6 @@ import BackgroundMusic from './components/Music/Music';
 import Igor from './assets/igor.png';
 import cardFlipSound from './assets/00118_streaming.wav';
 
-
-
 const shuffleArray = (array) => array.sort(() => Math.random() - 0.5);
 
 const cardValues = [
@@ -35,28 +33,26 @@ function App() {
     setCards(shuffleArray(pairs));
   }, []);
 
-  const flipCard = (id) => {
-    if (gameOver || isChecking || flippedCards.length >= 2) return;
-    const card = cards.find((card) => card.id === id);
-    if (card && !card.isMatched) {
-      // Play the card flip sound
-      new Audio(cardFlipSound).play();
-  
-      setFlippedCards((prev) => [...prev, id]);
-      setCards((prevCards) =>
-        prevCards.map((card) =>
-          card.id === id ? { ...card, isFlipped: true } : card
-        )
-      );
-      if (flippedCards.length === 0 && !timer) {
-        const newTimer = setInterval(() => {
-          setTimeLeft((prevTime) => prevTime - 1);
-        }, 1000);
-        setTimer(newTimer);
-      }
+const flipCard = (id) => {
+  if (gameOver || isChecking || flippedCards.length >= 2) return;
+  const card = cards.find((card) => card.id === id);
+  if (card && !card.isMatched) {
+    new Audio(cardFlipSound).play();
+
+    setFlippedCards((prev) => [...prev, id]);
+    setCards((prevCards) =>
+      prevCards.map((card) =>
+        card.id === id ? { ...card, isFlipped: true, className: 'card-flip' } : card
+      )
+    );
+    if (flippedCards.length === 0 && !timer) {
+      const newTimer = setInterval(() => {
+        setTimeLeft((prevTime) => prevTime - 1);
+      }, 1000);
+      setTimer(newTimer);
     }
-  };
-  
+  }
+};
 
   const resetGame = () => {
     const shuffledValues = shuffleArray([...cardValues]);
@@ -151,23 +147,28 @@ function App() {
     <div className="App">
       <BackgroundMusic />
       <Title />
+      {/* Placez le timer ici, juste après le titre */}
+      <div className="timer">⧗ : {timeLeft}</div>
+      
       <div className="card-container">
         {cards.map((card) => (
           <Card key={card.id} card={card} flipCard={flipCard} isChecking={isChecking} />
         ))}
         <img className="Igor" src={Igor} alt="Igor" />
       </div>
+      
       {lastFoundPair && (
         <div className="congratulations-message show">
           {getCustomMessage(lastFoundPair)}
         </div>
       )}
-      <div className="timer">⧗ : {timeLeft}</div>
+      
       {gameOver && <div className="game-over-message">Game Over</div>}
       {gameWon && <div className="game-won-message">Vous avez gagné!</div>}
+      
       <Button resetGame={resetGame} />
     </div>
   );
-}
+};
 
 export default App;
