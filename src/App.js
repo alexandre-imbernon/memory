@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import Button from './components/Button/Button';
 import Card from './components/Card/Card';
 import Title from './components/Title/Title';
 import BackgroundMusic from './components/Music/Music';
@@ -159,7 +158,7 @@ const flipCard = (id) => {
         {/* Conteneur de superposition pour Igor avec survol */}
         <div className="image-hover-container">
           <img className="Igor" src={Igor} alt="Igor" />
-          <img className="Igorclosedeyes" src={Igorclosedeyes} alt="Image superposée" />
+          <img className="Igorclosedeyes" src={Igorclosedeyes} alt="Image superposée" onClick={resetGame} />
         </div>
       </div>
       {lastFoundPair && (
@@ -171,9 +170,9 @@ const flipCard = (id) => {
       {gameOver && <div className="game-over-message">Game Over</div>}
       {gameWon && <div className="game-won-message">Vous avez gagné!</div>}
       
-      <Button resetGame={resetGame} />
     </div>
   );
 };
 
 export default App;
+
