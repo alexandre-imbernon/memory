@@ -22,6 +22,8 @@ function App() {
   const [gameWon, setGameWon] = useState(false);
   const [timer, setTimer] = useState(null);
   const [timeLeft, setTimeLeft] = useState(30);
+  const [showBlueScreen, setShowBlueScreen] = useState(false);
+
 
   useEffect(() => {
     const shuffledValues = shuffleArray([...cardValues]);
@@ -54,22 +56,24 @@ const flipCard = (id) => {
   }
 };
 
-  const resetGame = () => {
-    const shuffledValues = shuffleArray([...cardValues]);
-    const selectedValues = shuffledValues.slice(0, 4);
-    const pairs = selectedValues.flatMap((value) => [
-      { id: `${value}1`, value, isFlipped: false, isMatched: false },
-      { id: `${value}2`, value, isFlipped: false, isMatched: false },
-    ]);
-    setCards(shuffleArray(pairs));
-    setFlippedCards([]);
-    setLastFoundPair(null);
-    clearInterval(timer);
-    setTimer(null);
-    setGameOver(false);
-    setGameWon(false);
-    setTimeLeft(30);
-  };
+const resetGame = () => {
+  const shuffledValues = shuffleArray([...cardValues]);
+  const selectedValues = shuffledValues.slice(0, 4);
+  const pairs = selectedValues.flatMap((value) => [
+    { id: `${value}1`, value, isFlipped: false, isMatched: false },
+    { id: `${value}2`, value, isFlipped: false, isMatched: false },
+  ]);
+  setCards(shuffleArray(pairs));
+  setFlippedCards([]);
+  setLastFoundPair(null);
+  clearInterval(timer);
+  setTimer(null);
+  setGameOver(false);
+  setGameWon(false);
+  setTimeLeft(30);
+  setShowBlueScreen(false); // Ajoutez cette ligne
+};
+
 
   useEffect(() => {
     if (flippedCards.length === 2) {
@@ -107,6 +111,7 @@ const flipCard = (id) => {
     if (cards.filter((card) => card.isMatched).length === 8) {
       clearInterval(timer);
       setGameWon(true);
+      setShowBlueScreen(true); // Ajoutez cette ligne
     }
     if (timeLeft === 0) {
       clearInterval(timer);
@@ -114,7 +119,6 @@ const flipCard = (id) => {
     }
   }, [cards, timer, timeLeft]);
   
-
   const getCustomMessage = (pair) => {
     const messages = {
       'A': "L'arcane du 'Mat', symbole de l'aventure, de la liberté, et de la spontanéité.",
@@ -151,7 +155,7 @@ const flipCard = (id) => {
       {/* Placez le timer ici, juste après le titre */}
       <div className="timer">⧗ : {timeLeft}</div>
       
-        <div className="card-container">
+      <div className="card-container">
         {cards.map((card) => (
           <Card key={card.id} card={card} flipCard={flipCard} isChecking={isChecking} />
         ))}
@@ -169,10 +173,14 @@ const flipCard = (id) => {
       )}
       
       {gameOver && <div className="game-over-message">Game Over</div>}
-      {gameWon && <div className="game-won-message">Vous avez gagné!</div>}
+      {gameWon && !showBlueScreen && <div className="game-won-message">勝利! (Victoire)</div>}
       
+      {/* Ajoutez cette ligne ici */}
+      {showBlueScreen && (
+        <div className="blue-screen">
+          <div className="win-message">勝利! (Victoire)</div>
+        </div>
+      )}
     </div>
-  );
-};
-
+  );}  
 export default App;

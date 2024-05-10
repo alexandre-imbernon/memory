@@ -103,3 +103,26 @@ button {
 .congratulations-message.show {
   opacity: 1; /* Rendre visible */
 }
+
+.blue-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(17, 126, 193, 0.5); /* Remplacez cette ligne */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadein 2s;
+}
+
+.win-message {
+  font-size: 2em;
+  color: white;
+}
+
+@keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
