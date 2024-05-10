@@ -104,7 +104,7 @@ const flipCard = (id) => {
   }, [flippedCards, cards]);
 
   useEffect(() => {
-    if (cards.every((card) => card.isMatched)) {
+    if (cards.filter((card) => card.isMatched).length === 8) {
       clearInterval(timer);
       setGameWon(true);
     }
@@ -113,6 +113,7 @@ const flipCard = (id) => {
       setGameOver(true);
     }
   }, [cards, timer, timeLeft]);
+  
 
   const getCustomMessage = (pair) => {
     const messages = {
@@ -175,4 +176,3 @@ const flipCard = (id) => {
 };
 
 export default App;
-
