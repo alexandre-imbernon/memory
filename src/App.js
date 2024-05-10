@@ -23,7 +23,7 @@ function App() {
   const [timer, setTimer] = useState(null);
   const [timeLeft, setTimeLeft] = useState(30);
   const [showBlueScreen, setShowBlueScreen] = useState(false);
-
+  const [showRedScreen, setShowRedScreen] = useState(false);
 
   useEffect(() => {
     const shuffledValues = shuffleArray([...cardValues]);
@@ -71,9 +71,9 @@ const resetGame = () => {
   setGameOver(false);
   setGameWon(false);
   setTimeLeft(30);
-  setShowBlueScreen(false); // Ajoutez cette ligne
+  setShowBlueScreen(false);
+  setShowRedScreen(false); 
 };
-
 
   useEffect(() => {
     if (flippedCards.length === 2) {
@@ -111,13 +111,15 @@ const resetGame = () => {
     if (cards.filter((card) => card.isMatched).length === 8) {
       clearInterval(timer);
       setGameWon(true);
-      setShowBlueScreen(true); // Ajoutez cette ligne
+      setShowBlueScreen(true);
     }
     if (timeLeft === 0) {
       clearInterval(timer);
       setGameOver(true);
+      setShowRedScreen(true); // Ajoutez cette ligne
     }
   }, [cards, timer, timeLeft]);
+  
   
   const getCustomMessage = (pair) => {
     const messages = {
@@ -163,7 +165,7 @@ const resetGame = () => {
         {/* Conteneur de superposition pour Igor avec survol */}
         <div className="image-hover-container">
           <img className="Igor" src={Igor} alt="Igor" />
-          <img className="Igorclosedeyes" src={Igorclosedeyes} alt="Image superposée" onClick={resetGame} />
+          <img className="Igorclosedeyes" src={Igorclosedeyes} alt="Image superposée" onClick={resetGame} title="Cliquez pour relancer une partie"/>
         </div>
       </div>
       {lastFoundPair && (
@@ -172,15 +174,20 @@ const resetGame = () => {
         </div>
       )}
       
-      {gameOver && <div className="game-over-message">Game Over</div>}
+      {gameOver && !showRedScreen && <div className="game-over-message">敗北... (Défaite)</div>}
       {gameWon && !showBlueScreen && <div className="game-won-message">勝利! (Victoire)</div>}
-      
-      {/* Ajoutez cette ligne ici */}
+      {showRedScreen && (
+  <div className="red-screen">
+    <div className="lose-message">敗北... (Défaite)</div>
+  </div>
+)}
+
       {showBlueScreen && (
         <div className="blue-screen">
           <div className="win-message">勝利! (Victoire)</div>
         </div>
       )}
     </div>
+    
   );}  
 export default App;
